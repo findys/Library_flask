@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}User Info{% endblock %}
+
+
+{% block content  %}
+    <div align="center">
+    {% if reader %}
+	<h2> 用户信息 </h2>
+	    <h4><li> reader_id: {{session['name']}} </li></h4>
+        <h4><li> reader_name：{{ reader.reader_name }}</li></h4>
+        <h4><li> sex：{{ reader.sex }}</li></h4>
+        <h4><li> birthday：{{ reader.birthday }}</li></h4>
+        <h4><li> phone：{{ reader.phone }}</li></h4>
+        <h4><li> mobile：{{ reader.mobile }}</li></h4>
+        <h4><li> card_name：{{ reader.card_name }}</li></h4>
+        <h4><li> caer_id：{{ reader.Card_id }}</li></h4>
+        <h4> <li> level：{{ reader.level }}</li></h4>
+    {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}User Login{% endblock %}
+
+{% block content %}
+    <div align="center">
+	<h1>User Login</h1>
+	{% if message %} {{message}} {% endif %}
+	<form method="post">
+		Username: {{form.username}}
+		<br/>
+		Password: {{form.password}}
+		<br/>
+		<input type="submit" value="Submit" />
+		<input type="reset" value="reset" />
+	</form>
+    </div>
+{% endblock %}
