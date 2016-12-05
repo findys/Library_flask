@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}manager{% endblock %}
+
+{% block content %}
+    <div align="center">
+    <br>
+    <br>
+    <br>
+    <br>
+    </div>
+
+
+    <div class="row">
+     <div class="col-sm-6 col-md-4">
+        &nbsp;&nbsp;
+         <img src = "{{ url_for('static', filename='lib222.jpg')}}"  alt="bjtu">
+
+    </div>
+
+        <div class="col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <img data-src="holder.js/100%x200"  alt="">
+            <div class="caption">
+              <h3>图书管理</h3>
+              <p>这个页面你可以进行图书相关的操作，比如查看全部图书，余量，删除图书，新书入库等</p>
+              <p><a role="button" class="btn btn-success" href="{{url_for('book_manager')}}"> >> </a></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <img data-src="holder.js/100%x200"  alt="">
+            <div class="caption">
+              <h3>读者管理</h3>
+              <p>这个页面你可以对读者进行相关操作，比如书籍遗失，更改读者信息等</p>
+              <p><a role="button" class="btn btn-success" href="{{url_for('user_manager')}}"> >> </a></p>
+            </div>
+          </div>
+            </div>
+
+        <div class="col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <img data-src="holder.js/100%x200"  alt="">
+            <div class="caption">
+              <h3>借阅管理</h3>
+              <p>这个页面你可以进行借阅相关的操作，比如查看办理借阅证，逾期处理等</p>
+              <p><a role="button" class="btn btn-success" href="{{url_for('borrow_manager')}}"> >> </a></p>
+            </div>
+          </div>
+            </div>
+      </div>
+{% endblock %}
