@@ -116,5 +116,18 @@ def reader_info():
 	readerInfo = Reader.query.filter_by(Reader_id =session['name']).first()
 	return render_template('user_info.html',reader = readerInfo)
 
+@app.route("/book_manager",methods=['GET','POST'])
+def book_manager():
+	return render_template('book_manager.html')
+
+@app.route("/user_manager",methods=['GET','POST'])
+def user_manager():
+	return render_template('user_manager.html')
+
+@app.route("/borrow_manager",methods=['GET','POST'])
+def borrow_manager():
+	return render_template('borrow_manager.html')
+
+
 if __name__=="__main__":
 	app.run(debug=True)
