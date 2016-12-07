@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}User{% endblock %}
+
+{% block content %}
+
+<div align="center" class="page-header" >
+    <h1>新书入库</h1>
+    <br>
+	{% if error %}
+	<div class=error>
+	  <strong>入库结果</strong> {{error}}
+    <br>
+	</div>
+	{% endif %}
+<br>
+	<form method="post">
+		图书编号:{{form.book_id}}
+		<br/>
+        书名: {{ form.book_name }}
+        <br>
+        作者: {{form.author}}
+		<br/>
+		出版商: {{form.publishing}}
+		<br/>
+		类别号: {{form.Category_id}}
+		<br/>
+		价格: {{form.price}}
+		<br/>
+		入库时间: {{form.Date_in}}
+		<br/>
+		入库数量: {{form.Quanity_in}}
+		<br/>
+		<input type="submit" value="Submit" />
+
+     </form>
+    </div>
+{% endblock %}

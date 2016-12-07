@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title%}图书查询{% endblock %}
+
+{% block content %}
+    <div align="center">
+	<h2> 查询 </h2>
+	{% if error %}
+	<div class=error>
+	  <strong>Errror : </strong> {{error}}
+	</div>
+	{% endif %}
+    <div class=actions>
+	  <form action="" method="post">
+	    <dd>
+	      <select name="item">
+		<option value="name"> 书名 </option>
+		<option value="author"> 作者 </option>
+	      </select>
+	      <input type="text" name="query" size="80">
+	      <input type="submit" value="查询">
+	    </dd>
+	  </form>
+	</div>
+    {% if books %}
+	<table width="600" border="1" align="center">
+	  <tr>
+	    <th align="center"> book_id </th>
+	    <th align="center"> book_name </th>
+	    <th align="center"> auther</th>
+	    <th align="center"> pulishing </th>
+	    <th align="center"> category_id</th>
+        <th align="center"> price</th>
+	    <th align="center"> date_in</th>
+        <th align="center"> margin </th>
+	  </tr>
+	  <tr>
+	    <th align="center"> {{books.Book_id}}</th>
+	    <th align="center"> {{books.book_name}} </th>
+	    <th align="center"> {{books.author}}</th>
+	    <th align="center"> {{books.publishing}} </th>
+	    <th align="center"> {{books.Category_id}}</th>
+        <th align="center"> {{books.price}}</th>
+        <th align="center"> {{books.Date_in}}</th>
+        <th align="center"> {{books.Quanity_in}}</th>
+	  </tr>
+	  {% endif %}
+	</table>
+    </div>
+{% endblock %}
