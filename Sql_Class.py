@@ -182,6 +182,12 @@ def new_book_in():
 		return redirect(url_for('no_permision'))
 	return render_template('new_book_in.html',form = book_form ,error = error)
 
+
+@app.route("/book_change/<bookid>",methods=['GET','POST'])
+def book_change(bookid):
+	return render_template('no_permission.html')
+
+
 @app.route("/user_manager",methods=['GET','POST'])
 def user_manager():
 	return render_template('user_manager.html')
