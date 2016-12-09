@@ -56,6 +56,14 @@ class book(db.Model):
 	def __repr__(self):
 		return '<Book_id %r' % self.Book_id
 
+class borrow(db.Model):
+	__tablename__ = 'borrow'
+	Reader_id = db.Column(db.String(64),primary_key=True)
+	Book_id = db.Column(db.String(64),primary_key=True)
+	Date_borrow = db.Column(db.DateTime)
+	Date_return = db.Column(db.DateTime)
+	loss = db.Column(db.String(64))
+
 
 bootstrap = Bootstrap(app)
 moment = Moment(app)
@@ -95,6 +103,33 @@ class Newbookin_Form(Form):
 	Date_in = DateTimeField('入库时间',[validators.DataRequired()])
 	Quanity_in = IntegerField('入库数',[validators.DataRequired()])
 
+class Borrow_Form(Form):
+	borrow_name = StringField('借/还书人',[validators.DataRequired()])
+	borrow_book = StringField('书名',[validators.DataRequired()])
+	Date_borrow = DateTimeField('借书时间', [validators.DataRequired()])
+
+@app.route("/borrow_manager",methods=['GET','POST'])
+def borrow_manager():
+	error = None
+	form = Borrow_Form(request.form)
+	if request.method == 'POST':
+		B_reader = Reader.query.filter_by(reader_name = form.borrow_name.data).first()
+		B_book = book.query.filter_by(book_name = form.borrow_book.data).first()
+		if B_book.Quanity_in - B_book.Quanity_out > 0 :
+			newborrow = borrow(Reader_id = B_reader.Reader_id,
+							   Book_id = B_book.Book_id,
+							   Date_borrow = form.Date_borrow.data,
+							   loss='否')
+			db.session.add(newborrow)
+			B_book.Quanity_out = B_book.Quanity_out + 1
+			B_book.Quanity_in = B_book.Quanity_in - 1
+			db.session.add(B_book)
+			error = 'Operation succeeded'
+		else:
+			error = 'Operation failed'
+	return render_template('borrow_manager.html',form = form,error = error)
+
+
 @app.route("/manager")
 def manager():
 	return render_template('manager.html')
@@ -129,8 +164,7 @@ def user():
 
 @app.route('/reader/query', methods=['GET', 'POST'])
 def reader_query():
-	bookInfo = book()
-	books = None
+	bookInfo = None
 	error = None
 	if request.method == 'POST':
 		if request.form['item'] == 'name':
@@ -182,9 +216,9 @@ def new_book_in():
 		return redirect(url_for('no_permision'))
 	return render_template('new_book_in.html',form = book_form ,error = error)
 
-
 @app.route("/book_change/<bookid>",methods=['GET','POST'])
 def book_change(bookid):
+	pass
 	return render_template('no_permission.html')
 
 
@@ -192,9 +226,6 @@ def book_change(bookid):
 def user_manager():
 	return render_template('user_manager.html')
 
-@app.route("/borrow_manager",methods=['GET','POST'])
-def borrow_manager():
-	return render_template('borrow_manager.html')
 
 @app.route("/no_permision",methods=['GET','POST'])
 def no_permision():
