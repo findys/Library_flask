@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}借阅管理{% endblock %}
+
+{% block content %}
+
+    	{% if error %}
+	<div class=error align="center">
+	 <h4><strong>借还书结果：</strong> {{error}}</h4>
+    <br>
+	</div>
+	{% endif %}
+    <br>
+    <div align="center">
+	<h1>借书 还书 挂失</h1>
+    <br>
+    <br>
+	{% if message %} {{message}} {% endif %}
+	<form method="post">
+		借/还书人: {{form.borrow_name}}
+		<br/>
+		书名: {{form.borrow_book}}
+		<br/>
+        借/还书日期: {{form.Date_borrow}}
+		<br/>
+		<input type="submit" value="Submit" />
+	</form>
+    </div>
+{% endblock %}
