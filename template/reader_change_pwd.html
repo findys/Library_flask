@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}读者信息更改{% endblock %}
+
+{% block content %}
+
+<div align="center" class="page-header" >
+    <h1>修改密码</h1>
+    <br>
+	{% if error %}
+	<div class=error>
+	  <strong>修改密码结果</strong> {{error}}
+    <br>
+	</div>
+	{% endif %}
+<br>
+   <form method="post">
+		密码:  {{form.pwd}}
+		<br>
+		再次输入:  {{form.pwdagain}}
+		<br>
+		<input type="submit" value="Submit" />
+     </form>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}读者信息更改{% endblock %}
+
+{% block content %}
+
+<div align="center" class="page-header" >
+    <h1>读者信息更改</h1>
+    <br>
+	{% if error %}
+	<div class=error>
+	  <strong>信息修改结果</strong> {{error}}
+    <br>
+	</div>
+	{% endif %}
+<br>
+   <form method="post">
+		读者编号:  {{form.Reader_id}}
+		<br/>
+		手机:  {{form.mobile}}
+		<br/>
+        读者等级:  {{form.level}}
+        <br>
+		<input type="submit" value="Submit" />
+
+     </form>
+</div>
+{% endblock %}
