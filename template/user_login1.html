@@ -5,11 +5,18 @@
 {% block content %}
     <div align="center">
 	<h1>User Login</h1>
-	{% if message %} {{message}} {% endif %}
+    <br>
+        	{% if error %}
+	<div class=error>
+	  <h4><strong>login {{error}}</strong> </h4>
+    <br>
+	</div>
+	{% endif %}
+    <br>
 	<form method="post">
-		Username: {{form.username}}
+		用户编号: {{form.username}}
 		<br/>
-		Password: {{form.password}}
+		&#12288;&#12288;密码: {{form.password}}
 		<br/>
 		<input type="submit" value="Submit" />
 		<input type="reset" value="reset" />
