@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}User{% endblock %}
+
+{% block content %}
+        <div align="center">
+    <br>
+    <br>
+
+</div>
+
+<div class="container">
+      <h2>About me</h2>
+      <div class="row">
+        <div class="col-lg-10">
+          <div class="row">
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+              <div class="tile">
+                <img src="{{ url_for('static', filename='s150.png')}}" alt="Compas" class="tile-image big-illustration">
+                <h3 class="tile-title">blog</h3>
+                <p>you can see some interesting and useful article in site : <strong>www.findys.me</strong> </p>
+                <a class="btn btn-primary btn-large btn-block" href="http://www.findys.me">go</a>
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+              <div class="tile">
+                <img src="{{ url_for('static', filename='github150.png')}}" alt="Infinity-Loop" class="tile-image">
+                <h3 class="tile-title">github</h3>
+                <p>step of author's coding life          <br>  <br> <br>                    </p>
+                <a class="btn btn-primary btn-large btn-block" href="https://github.com/findys">go</a>
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+              <div class="tile">
+                <img src="{{ url_for('static', filename='Mail150.png')}}" alt="Pensils" class="tile-image">
+                <h3 class="tile-title">email</h3>
+                <p>the follow is echo's email: <strong>14281070@bjtu.edu.cn</strong>    <br><br> </p>
+                <a class="btn btn-primary btn-large btn-block" href="mailto:14281070@bjtu.edu.cn">send</a>
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+              <div class="tile">
+                <img src="{{ url_for('static', filename='bjtu150.png')}}" alt="ribbon" class="tile-hot-ribbon">
+                <h3 class="tile-title">北京交通大学图书馆</h3>
+                <p> in campus you can get many article for free</p>
+                <a class="btn btn-primary btn-large btn-block" href="http://lib.njtu.edu.cn/">go</a>
+              </div>
+
+            </div>
+          </div> <!-- /row -->
+        </div>
+      </div> <!-- /row -->
+    </div><!-- /.container -->
+
+
+
+{% endblock %}

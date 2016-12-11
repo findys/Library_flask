@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}manager{% endblock %}
+
+{% block content %}
+    <div align="center">
+    <br>
+    <br>
+    <br>
+    </div>
+
+
+    <div class="row">
+     <div class="col-sm-6 col-md-4">
+        &nbsp;&nbsp;
+         <img src = "{{ url_for('static', filename='library1.png')}}"  alt="bjtu">
+
+    </div>
+
+        <div class="col-xs-1 col-md-1">
+        </div>
+<br>
+
+        <div class="col-xs-1 col-md-3">
+        </div>
+
+
+        <div class="col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <div class="caption">
+              <h3>图书管理系统</h3>
+              <p> <br> Welcome to the library management system of echo, i wish you have a wonderful experience, if you have any suggestions, you can go to the about page and get Contact information of developer.thanks</p>
+              <br>
+               <p><a class = "btn btn-lg btn-success"  href="{{url_for('login')}}">login</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}User_manager{% endblock %}
+
+{% block content %}
+        <div align="center">
+    <br><br><br><br>
+    </div>
+      <div align="center" >
+      <a class = "btn btn-lg btn-success" href="{{url_for('register')}}">办理读书证</a>
+      <a class = "btn btn-lg btn-success" href="{{url_for('loss')}}">读书证挂失</a>
+      <a class = "btn btn-lg btn-success" href="{{url_for('reader_change')}}"> 修改读者信息</a>
+     </div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}读书证挂失{% endblock %}
+
+{% block content %}
+
+<div align="center" class="page-header" >
+    <h1>读者证挂失</h1>
+    <br>
+	{% if error %}
+	<div class=error>
+	  <h4><strong>挂失结果</strong> {{error}}</h4>
+    <br>
+	</div>
+	{% endif %}
+<br>
+   <form method="post">
+		读书证编号:  {{form.Reader_id}}
+		<br>
+        &#12288;挂失日期：{{ form.Loss_date }}
+       <br>
+		<input type="submit" value="Submit" />
+     </form>
+</div>
+{% endblock %}
