@@ -8,14 +8,12 @@ from flask import session
 from flask_moment import Moment
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy,BaseQuery
-from flask_wtf import Form
 from wtforms import *
-from sqlalchemy.orm import query
 import os
 
 app=Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:10IDCcom@123.206.23.69:3306/Sql_Class'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:10IDCcom@123.206.23.69:3306/only_for_test'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 
 db = SQLAlchemy(app)
@@ -120,51 +118,69 @@ class rcpwd_Form(Form):
 	pwd = StringField('手机', [validators.DataRequired()])
 	pwdagain = StringField('读者等级', [validators.DataRequired()])
 
+class loss_Form(Form):
+	Reader_id = StringField('读者编号', [validators.DataRequired()])
+	Loss_date = DateTimeField('挂失时间', [validators.DataRequired()])
+
+
+@app.route("/")
+def homepage():
+    return render_template("home.html")
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
 @app.route("/borrow_manager",methods=['GET','POST'])
 def borrow_manager():
 	error = None
 	form = Borrow_Form(request.form)
-	if request.method == 'POST':
-		if request.form['Operation'] == 'borrow':
-			B_reader = Reader.query.filter_by(reader_name = form.borrow_name.data).first()
-			B_book = book.query.filter_by(book_name = form.borrow_book.data).first()
-			if B_book.Quanity_in - B_book.Quanity_out > 0 :
-				newborrow = borrow(Reader_id = B_reader.Reader_id,
-							   Book_id = B_book.Book_id,
-							   Date_borrow = form.Date_borrow.data,
-							   loss='否')
-				db.session.add(newborrow)
-				B_book.Quanity_out += 1
-				B_book.Quanity_in -= 1
-				db.session.add(B_book)
-				error = 'Operation succeeded'
+	if session['name'] == 'admin':
+		if request.method == 'POST':
+			if request.form['Operation'] == 'borrow':
+				B_reader = Reader.query.filter_by(reader_name=form.borrow_name.data).first()
+				r_loss = loss_reporting.query.filter_by(Reader_id=B_reader.Reader_id)
+				if not r_loss:
+					B_book = book.query.filter_by(book_name=form.borrow_book.data).first()
+					if B_book.Quanity_in - B_book.Quanity_out > 0:
+						newborrow = borrow(Reader_id=B_reader.Reader_id,
+										   Book_id=B_book.Book_id,
+										   Date_borrow=form.Date_borrow.data,
+										   loss='否')
+						db.session.add(newborrow)
+						B_book.Quanity_out += 1
+						B_book.Quanity_in -= 1
+						db.session.add(B_book)
+						error = 'Operation succeeded'
+				else:
+					error = 'reader card is loss'
+			elif request.form['Operation'] == 'return':
+				B_book = book.query.filter_by(book_name=form.borrow_book.data).first()
+				B_reader = Reader.query.filter_by(reader_name=form.borrow_name.data).first()
+				B_borrow = borrow.query.filter_by(Book_id=B_book.Book_id, Reader_id=B_reader.Reader_id).first()
+				if B_borrow:
+					B_borrow.Date_return = form.Date_borrow.data
+					db.session.add(B_borrow)
+					B_book.Quanity_out -= 1
+					B_book.Quanity_in += 1
+					db.session.add(B_book)
+					error = 'Operation succeeded'
+				else:
+					error = 'Operation failed'
 			else:
-				error = 'Operation failed'
-		elif request.form['Operation'] == 'return':
-			B_book = book.query.filter_by(book_name=form.borrow_book.data).first()
-			B_reader = Reader.query.filter_by(reader_name=form.borrow_name.data).first()
-			B_borrow = borrow.query.filter_by(Book_id=B_book.Book_id, Reader_id=B_reader.Reader_id).first()
-			if B_borrow:
-				B_borrow.Date_return = form.Date_borrow.data
-				db.session.add(B_borrow)
-				B_book.Quanity_out -= 1
-				B_book.Quanity_in += 1
-				db.session.add(B_book)
-				error = 'Operation succeeded'
-			else:
-				error = 'Operation failed'
-		else:
-			B_reader = Reader.query.filter_by(reader_name=form.borrow_name.data).first()
-			B_book = book.query.filter_by(book_name=form.borrow_book.data).first()
-			B_borrow = borrow.query.filter_by(Book_id=B_book.Book_id, Reader_id=B_reader.Reader_id).first()
-			if B_borrow:
-				B_borrow.loss = '是'
-				db.session.add(B_borrow)
-				B_book.Quanity_loss += 1
-				db.session.add(B_book)
-				error = 'Operation succeeded'
-			else:
-				error = 'Operation failed'
+				B_reader = Reader.query.filter_by(reader_name=form.borrow_name.data).first()
+				B_book = book.query.filter_by(book_name=form.borrow_book.data).first()
+				B_borrow = borrow.query.filter_by(Book_id=B_book.Book_id, Reader_id=B_reader.Reader_id).first()
+				if B_borrow:
+					B_borrow.loss = '是'
+					db.session.add(B_borrow)
+					B_book.Quanity_loss += 1
+					db.session.add(B_book)
+					error = 'Operation succeeded'
+				else:
+					error = 'Operation failed'
+	else:
+		return redirect(url_for('no_permision'))
 	return render_template('borrow_manager.html',form = form,error = error)
 
 
@@ -221,6 +237,7 @@ def new_book_in():
 
 @app.route("/login",methods=['GET','POST'])
 def login():
+	error = None
 	myForm=LoginForm(request.form)
 	session['name'] = myForm.username.data
 	if request.method =='POST':
@@ -230,8 +247,8 @@ def login():
 		elif (check_reader.password  == myForm.password.data and myForm.username.data =='admin'):
 			return redirect(url_for('manager'))
 		else:
-			return "Login Failed"
-	return render_template('user_login1.html',form=myForm)
+			error = 'failed'
+	return render_template('user_login1.html',form=myForm,error = error)
 
 @app.route('/user')
 def user():
@@ -271,10 +288,27 @@ def reader_ch_pwd():
 			error = 'twice diffirence'
 	return render_template('reader_change_pwd.html',form = form,error = error)
 
+@app.route('/loss', methods=['GET', 'POST'])
+def loss():
+	error = None
+	form = loss_Form(request.form)
+	if session['name'] == 'admin':
+		if request.method == 'POST':
+			reader_loss = Reader.query.filter_by(Reader_id=form.Reader_id.data).first()
+			if reader_loss:
+				newloss = loss_reporting(Reader_id=form.Reader_id.data,
+										 Loss_date=form.Loss_date.data)
+				db.session.add(newloss)
+				error = 'Operation succeeded'
+			else:
+				error = 'Operation failed'
+	else:
+		return redirect(url_for('no_permision'))
+	return render_template('loss.html',form = form,error = error)
+
 @app.route("/book_manager",methods=['GET','POST'])
 def book_manager():
 	if session['name'] == 'admin':
-		bookm = book()
 		bookm = book.query.all()
 	else:
 		return redirect(url_for('no_permision'))
@@ -313,4 +347,4 @@ def no_permision():
 
 
 if __name__=="__main__":
-	app.run(debug= True)
+	app.run()
