@@ -3,8 +3,15 @@
 {% block title %}User{% endblock %}
 
 {% block content %}
-     <div align="center">
-      <a class = "btn btn-lg btn-success" href="{{url_for('reader_query')}}"> 查询书籍</a>
+        <div align="center">
+    <br>
+    <br>
+    <br>
+    <br>
+    </div>
+      <div align="center" >
+      <a class = "btn btn-lg btn-success" href="{{url_for('reader_query')}}"> 查询书籍</a>&nbsp;
       <a class = "btn btn-lg btn-success" href="{{url_for('reader_info')}}"> 个人资料</a>
+       <a class = "btn btn-lg btn-success" href="{{url_for('reader_ch_pwd')}}"> 修改密码</a>
      </div>
 {% endblock %}
