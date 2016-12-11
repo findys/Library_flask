@@ -7,7 +7,6 @@
     	{% if error %}
 	<div class=error align="center">
 	 <h4><strong>借还书结果：</strong> {{error}}</h4>
-    <br>
 	</div>
 	{% endif %}
     <br>
@@ -15,13 +14,19 @@
 	<h1>借书 还书 挂失</h1>
     <br>
     <br>
-	{% if message %} {{message}} {% endif %}
 	<form method="post">
-		借/还书人: {{form.borrow_name}}
+
+<select name = "Operation">
+    <option value="borrow">图书借阅</option>
+    <option value="return">图书归还</option>
+    <option value="loss" >图书挂失</option>
+</select>
+
+		&#12288; &#12288; 借/还书/挂失人: {{form.borrow_name}}
 		<br/>
-		书名: {{form.borrow_book}}
+		&#12288; &#12288; &#12288; &#12288; &#12288; &#12288; &#12288; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  书名: {{form.borrow_book}}
 		<br/>
-        借/还书日期: {{form.Date_borrow}}
+      &#12288; &#12288; &#12288; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;   借/还书/挂失日期: {{form.Date_borrow}}
 		<br/>
 		<input type="submit" value="Submit" />
 	</form>
