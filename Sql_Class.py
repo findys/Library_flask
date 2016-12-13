@@ -13,7 +13,7 @@ import os
 
 app=Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:10IDCcom@123.206.23.69:3306/only_for_test'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql:/username:password@ip/sql'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 
 db = SQLAlchemy(app)
@@ -309,10 +309,14 @@ def loss():
 @app.route("/book_manager",methods=['GET','POST'])
 def book_manager():
 	if session['name'] == 'admin':
-		bookm = book.query.all()
+		page = request.args.get('page', 1, type=int)
+		pagination = book.query.order_by().paginate(
+			page, per_page=5,
+			error_out=False)
+		bookm = pagination.items
 	else:
 		return redirect(url_for('no_permision'))
-	return render_template('book_manager.html',bookm = bookm)
+	return render_template('book_manager.html',bookm = bookm,pagination = pagination)
 
 
 @app.route("/book_change/<bookid>",methods=['GET','POST'])
