@@ -15,4 +15,5 @@ fourth：test whole app
 
 参考图书：图灵程序设计丛书·Flask Web开发：基于Python的Web应用开发实战 [Flask Web Development:Developing Web Applications with Python]
 作者：[美] 格林布戈（Miguel Grinberg） 著；安道 译
+
 这本书不单是在web开发流程，还在安全性，版本控制均作了介绍，虽然本书写的博客系统的开发，不过对我的帮助还是很大，让我更加规范，也让我对MVC有了大致的认识和理解。
