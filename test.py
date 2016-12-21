@@ -7,7 +7,7 @@ from wtforms import *
 
 app=Flask(__name__)
 
-conn = MySQLdb.connect("123.206.23.69", "root", "10IDCcom", "Sql_Class")
+conn = MySQLdb.connect("ip", "username", "password", "database")
 
 cur = conn.cursor()
 
